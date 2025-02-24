@@ -1,0 +1,36 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 'Python 3.12.7'
+
+      - name: Install Dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install pytest
+
+      - name: Run Tests
+        run: |
+          pytest --maxfail=1 --disable-warnings -q
+
+      - name: Deploy to Production (Optional)
+        if: github.ref == 'refs/heads/main'
+        run: |
+          echo "Deploying to Production..."
