@@ -19,18 +19,19 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: 'Python 3.12.7'
+          python-version: '3.12'  # Use just the version number
 
       - name: Install Dependencies
         run: |
-          pip install -r requirements.txt
-          pip install pytest
+          pip install -r requirements.txt --verbose  # Add verbose for better logging
+          pip install pytest --verbose  # Add verbose for better logging
 
       - name: Run Tests
         run: |
-          pytest --maxfail=1 --disable-warnings -q
+          pytest --maxfail=1 --disable-warnings -q  # You can add verbosity to pytest if needed
 
       - name: Deploy to Production (Optional)
         if: github.ref == 'refs/heads/main'
         run: |
           echo "Deploying to Production..."
+          # Add actual deployment commands here
